@@ -19,10 +19,13 @@ public class DataStorage {
      */
     public void printExp(Map<String,String> expMap) throws IOException {
 
-        Set<String> expSet = expMap.keySet();  //expSet存储表达式
+        //expSet存储表达式
+        Set<String> expSet = expMap.keySet();
 
-        File expFile = new File("Exercises.txt");//存储表达式的文件
-        File ansFile = new File("Answers.txt");  //存储答案的文件
+        //存储表达式的文件
+        File expFile = new File("Exercises.txt");
+        //存储答案的文件
+        File ansFile = new File("Answers.txt");
         if(!expFile.exists())
             expFile.createNewFile();
         if(!ansFile.exists())
@@ -31,8 +34,10 @@ public class DataStorage {
         BufferedWriter bw1 = new BufferedWriter(new FileWriter(expFile,true));
         BufferedWriter bw2 = new BufferedWriter(new FileWriter(ansFile,true));
 
-        for(String key: expSet) {  //循环将表达式和答案分别写入两个文件
-            bw1.write(key);        //TODO 待添加：存储的同时表明序号
+        //循环将表达式和答案分别写入两个文件
+        for(String key: expSet) {
+            //TODO 待添加：存储的同时表明序号
+            bw1.write(key);
             bw1.write("\n");
             bw2.write(expMap.get(key));
             bw2.write("\n");
