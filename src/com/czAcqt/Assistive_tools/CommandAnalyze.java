@@ -19,6 +19,7 @@ public class CommandAnalyze {
      */
     public void getRange() throws IOException {
 
+        //TODO 待添加统计生成的文件中计算错误和正确数量的命令
         System.out.println("请输入命令以生成对应数目题目：");
         String numCommand = sc1.nextLine();
         System.out.println("请输入命令以限制题目数值范围[2位数]：");
