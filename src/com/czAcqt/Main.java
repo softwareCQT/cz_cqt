@@ -1,5 +1,10 @@
 package com.czAcqt;
 
+
+import com.czAcqt.generate.Calculate;
+
+import java.util.ArrayList;
+
 /***
  * @author chenqiting
  */
@@ -13,5 +18,7 @@ public class Main {
         //TODO 表达式生成结果返回，以Map<String, String>的question，answer形式
 
         //TODO 写入文件
+        Calculate calculate = new Calculate();
+        System.out.println(calculate.calculate("100 - 200"));
     }
 }

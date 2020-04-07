@@ -1,15 +1,18 @@
 package com.czAcqt.generate;
 
 import com.czAcqt.util.ResolveUtil;
+import com.sun.istack.internal.Nullable;
+
+import java.util.Map;
 
 /***
  * @author chenqiting
  */
-public enum Symbol implements CalculateGenerate{
+public enum Symbol implements CalculateGenerate {
     /***
      * 相加操作
      */
-    ADD('+'){
+    ADD("+"){
         @Override
         public String calculate(String a, String b) {
             boolean flagA = a.contains("/");
@@ -41,7 +44,7 @@ public enum Symbol implements CalculateGenerate{
     /***
      * 相乘操作
      */
-    MULTIPLY('*'){
+    MULTIPLY("×"){
         @Override
         public String calculate(String a, String b) {
             boolean flagA = a.contains("/");
@@ -69,7 +72,7 @@ public enum Symbol implements CalculateGenerate{
     /***
      * 相除操作
      */
-    DIVIDE('÷'){
+    DIVIDE("÷"){
         @Override
         public String calculate(String a, String b) {
             //除法，从另外一种角度来说，是乘法的倒转，所以，只需要把b分子分母倒过来用乘法就行了
@@ -89,20 +92,44 @@ public enum Symbol implements CalculateGenerate{
     /***
      * 相减操作
      */
-    SUB('-'){
+    SUB("-"){
         @Override
         public String calculate(String a, String b) {
             //减是加的特例，把b弄成-就可以了
             return Symbol.ADD.calculate(a, "-" + b);
         }
+    },
+
+    BEGIN("("){
+        @Override
+        public String calculate(String a, String b) {
+            return null;
+        }
+    },
+
+    END(")"){
+        @Override
+        public String calculate(String a, String b) {
+            return null;
+        }
     };
-    Symbol(char string){
+    Symbol(String string){
         this.symbol = string;
     }
 
-    private char symbol;
+    private String symbol;
 
-    public char getSymbol(){
+    public String getSymbol(){
         return symbol;
+    }
+    @Nullable
+    public static Symbol value(String symbol) {
+        switch (symbol){
+            case "+": return ADD;
+            case "-": return SUB;
+            case "×":return MULTIPLY;
+            case "÷":return DIVIDE;
+            default: return BEGIN;
+        }
     }
 }

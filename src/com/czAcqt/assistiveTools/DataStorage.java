@@ -1,4 +1,4 @@
-package com.czAcqt.Assistive_tools;
+package com.czAcqt.assistiveTools;
 
 import java.io.BufferedWriter;
 import java.io.File;

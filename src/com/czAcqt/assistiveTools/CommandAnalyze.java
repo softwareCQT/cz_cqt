@@ -1,4 +1,4 @@
-package com.czAcqt.Assistive_tools;
+package com.czAcqt.assistiveTools;
 
 import com.czAcqt.generate.Expression;
 
@@ -38,13 +38,12 @@ public class CommandAnalyze {
         //格式正确，将题目数和数值范围传给表达式生成类
         if(flag){
             //TODO 当前为通过构造方法传参（可能待修改）
+            //TODO 陈起廷：如果没有范围值的话，默认传过来Integer.MAX_VALUE
             new Expression(Integer.parseInt(num[2]), Integer.parseInt(range[2]));
         //格式错误，重新输入命令
         }else{
             System.out.println("无效命令！请检查您的命令格式或数值范围。");
             getRange();
         }
-
-
     }
 }
