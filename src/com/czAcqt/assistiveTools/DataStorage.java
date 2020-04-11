@@ -2,31 +2,34 @@ package com.czAcqt.assistiveTools;
 
 import java.io.*;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
- * 数据存储类V1.0
+ * @Class CommandAnalyze
+ * @Destination 将数据写入文件
+ * @Author Naren
+ * @Date 2020/4/11 10:00
+ * @Version 1.0
  */
 public class DataStorage {
 
-    File expFile = null;
-    File ansFile = null;
-    String id = null;
+    private File expFile;
+    private File ansFile;
+    private String id;
 
     /**
-     * @function 设置文件版号以方便匹配题目与答案
+     * 设置文件版号以方便匹配题目与答案
      * @param flag
      * @throws IOException
      */
-    public void setFileId(int flag) throws IOException {
+    private void setFileId(int flag) throws IOException {
         //表达式
         if(flag == 1) {
             System.out.println("请设置待生成文件的3位数字版号：");
             Scanner sc = new Scanner(System.in);
             id = sc.next();
-            expFile = new File("Exercises" + id + ".txt");//存储表达式的文件
+            //存储表达式的文件
+            expFile = new File("Exercises" + id + ".txt");
             if(!expFile.exists()) {
                 expFile.createNewFile();
             }else{
@@ -34,8 +37,9 @@ public class DataStorage {
                 setFileId(flag);
             }
         }
-        if(flag == 2) {//答案
-            ansFile = new File("Answers" + id + ".txt"); //存储答案的文件
+        if(flag == 2) {
+            //存储答案的文件
+            ansFile = new File("Answers" + id + ".txt");
             if(!ansFile.exists()) {
                 ansFile.createNewFile();
             }
@@ -46,14 +50,12 @@ public class DataStorage {
     /**
      * 将表达式写入本地文件
      * @param questionList
-     * @throws IOException
      */
-    public void storeExp(List<String> questionList) {
+    void storeExp(List<String> questionList) {
 
-        BufferedWriter expWriter = null;
         try {
             setFileId(1);
-            expWriter = new BufferedWriter(new FileWriter(expFile,true));
+            BufferedWriter expWriter = new BufferedWriter(new FileWriter(expFile,true));
 
             //循环将表达式写入文件
             int num = 1;
@@ -73,14 +75,13 @@ public class DataStorage {
     /**
      * 将答案写入本地文件
      * @param answerList
-     * @throws IOException
      */
-    public void storeAns(List<String> answerList) {
+    void storeAns(List<String> answerList) {
         //Myapp.exe -e  -a Answers001.txt
-        BufferedWriter ansWriter = null;
+
         try {
             setFileId(2);
-            ansWriter = new BufferedWriter(new FileWriter(ansFile,true));
+            BufferedWriter ansWriter = new BufferedWriter(new FileWriter(ansFile,true));
             for(int i = 0, length = answerList.size();i < length;i++){
                 ansWriter.write((i + 1) + "." + answerList.get(i) + "\n");
                 ansWriter.flush();
@@ -96,48 +97,57 @@ public class DataStorage {
     }
 
     /**
-     * @function 将校验信息写入本地文件
+     * 将校验信息写入本地文件
      * @param correctList
      * @param wrongList
      */
     public void storeCheckInfo(List<Integer> correctList, List<Integer> wrongList) {
-        BufferedWriter  checkWriter = null;
+
         try{
             //Correct信息
-            checkWriter = new BufferedWriter( new FileWriter(new File("Grade.txt")));
+            BufferedWriter  checkWriter = new BufferedWriter( new FileWriter(new File("Grade.txt")));
             checkWriter.write("Correct:" + correctList.size());
             if(checkWriter != null) checkWriter.flush();
-            String content = null;
+            String content = "";
             for (Integer questionId: correctList) {
-                if(questionId == correctList.get(0))
+                if(questionId.equals(correctList.get(0)))
                     content += "(" +questionId + ",";
-                else if(questionId != correctList.get(correctList.size() - 1))
-                    content += questionId + ")";
+                else if(!questionId.equals(correctList.get(correctList.size() - 1)))
+                    content += questionId + ",";
                 else{
-                    content += questionId+",";
+                    content += questionId+")";
                 }
             }
             checkWriter.write(content + "\n");
             if(checkWriter != null) checkWriter.flush();
 
             //Wrong信息
-            content = null;
-            checkWriter.write("Correct:" + wrongList.size());
+            content = "";
+            checkWriter.write("Wrong:" + wrongList.size());
             if(checkWriter != null) checkWriter.flush();
-            for (Integer questionId: wrongList) {
-                if(questionId == wrongList.get(0))
-                    content += "(" +questionId + ",";
-                else if(questionId != correctList.get(correctList.size() - 1))
-                    content += questionId + ")";
-                else{
-                    content += questionId+",";
+            if(wrongList.size() == 0){
+                if(checkWriter != null) checkWriter.flush();
+                if(checkWriter != null) checkWriter.close();
+                return;
+            }else if(wrongList.size() == 1){
+                content += "(" + wrongList.get(0) + ")";
+            }else {
+                for (Integer questionId: wrongList) {
+                    if(questionId.equals(wrongList.get(0)))
+                        content += "(" +questionId + ",";
+                    else if(questionId != wrongList.get(wrongList.size() - 1))
+                        content += questionId + ",";
+                    else{
+                        content += questionId+")";
+                    }
                 }
             }
+
             checkWriter.write(content + "\n");
             if(checkWriter != null) checkWriter.flush();
             if(checkWriter != null) checkWriter.close();
         }catch(Exception e){
-            System.out.println("【校验结果写入异常】请检查文件路径。");
+            e.printStackTrace();
         }
     }
 }

@@ -13,9 +13,15 @@ import java.util.Scanner;
  * @author chenqiting
  */
 public class Main {
-
+    /**
+     * @Author chenqiting
+     * @Date  2020-04-11 21:00
+     * @Description main方法
+     * @Param String[]
+     * @return void
+     */
     public static void main(String[] args) {
-        /*//示例
+        /*//起廷的示例
         Expression expression = new Expression(10000, 40, new Calculate());
 
         expression.generateAllExpression();
@@ -29,6 +35,5 @@ public class Main {
         CommandAnalyze commandAnalyze = new CommandAnalyze();
         commandAnalyze.command();
 
-        //Expression expression =
     }
 }

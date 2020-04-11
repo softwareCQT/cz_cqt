@@ -48,10 +48,12 @@ public class Expression {
     /***
      * 操作符个数
      */
+    //TODO 修改操作符个数
     private final static int OPERATOR_SIZE = 4;
     /***
      * 最多的操作符数
      */
+    //TODO 修改最大操作符个数为3
     private final static int MAX_OPERATOR_SIZE = 4;
 
     /***

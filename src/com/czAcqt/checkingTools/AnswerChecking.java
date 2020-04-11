@@ -10,24 +10,25 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * @version 1.0
- * @class: AnswerChecking
- * @description: 校验答案
- * @author: Naren
- * @date: 2020/4/11 11:33
+ * @Class: AnswerChecking
+ * @Description: 校验答案
+ * @Author: Naren
+ * @Date: 2020/4/11 11:33
+ * @Version 1.0
  */
 public class AnswerChecking {
 
     //保存正确/错误题号的队列
-    List<Integer> correctList = new ArrayList<>();
-    List<Integer> wrongList = new ArrayList<>();
+    private List<Integer> correctList = new ArrayList<>();
+    private List<Integer> wrongList = new ArrayList<>();
 
     /**
-     * @function:检测文件状态是否正常
-     * @param answerFile
+     * 校验待检测文件状态
      * @param exersicesFile
+     * @param answerFile
+     * @author Naren
      */
-    public void checkFile(String answerFile, String exersicesFile) {
+    public void checkFile(String exersicesFile,String answerFile) {
             //存储表达式的文件
             File expFile = new File(exersicesFile);
             //存储答案的文件
@@ -43,14 +44,13 @@ public class AnswerChecking {
                 return;
             }
             //如果全部文件名都正确，检测待校对题目文件是否存在于系统生成历史中
-            String id = exersicesFile.substring(9,11);
-            String myAnswerFile = "Answers" + id + ".txt";
+            String id = exersicesFile.substring(9,12);
+            String myAnswerFile = "Answers" + id + ".txt"; //Myapp.exe -e Exercises002.txt -a Answers002.txt
             File myAnswer = new File(myAnswerFile);
             //若系统中不存在与题目文件相符合的答案文件
             if(!myAnswer.exists()){
-                FileReader fr = null;
                 try {
-                    fr = new FileReader(expFile);
+                    FileReader fr = new FileReader(expFile);
                     BufferedReader br = new BufferedReader(fr);
                     String content = null;
                     ArrayList<String> questionList = new ArrayList<>();
@@ -65,7 +65,7 @@ public class AnswerChecking {
                     //比对
                     checkAnswer(myAnswer,answerList);
                 } catch (Exception e) {
-                    System.out.println("【答案队列比对异常】");
+                    System.out.println("【答案队列比对异常】文件状态异常");
                 }
             }else{
                 //调用本类检验方法比对答案文件
@@ -74,15 +74,15 @@ public class AnswerChecking {
     }
 
     /**
-     * @function 将待校验答案文件与现场计算出的答案队列进行比对
+     * 将待校验答案文件与现场计算出的答案队列进行比对
      * @param myAnswer
      * @param answerList
+     * @author Naren
      */
     private void checkAnswer(File myAnswer, List<String> answerList){
-
-        FileReader fr1 = null;//待检测答案文件
         try {
-            fr1 = new FileReader(myAnswer);
+            //待检测答案文件
+            FileReader fr1 = new FileReader(myAnswer);
             BufferedReader br1 = new BufferedReader(fr1);
 
             LinkedHashMap<Integer,String> map1 = new LinkedHashMap<>();
@@ -91,7 +91,7 @@ public class AnswerChecking {
             while((content = br1.readLine()) != null){
                 content = content.replaceAll(" +", "").replaceAll("\uFEFF", "");
                 //map1待校验答案：key:序号，value:答案
-                map1.put(Integer.valueOf(content.split("//.")[0]),content.split("//.")[1]);
+                map1.put(Integer.valueOf(content.split("//.")[0]),content.split("\\.")[1]);
             }
 
             //开始比对
@@ -108,24 +108,23 @@ public class AnswerChecking {
             //将校验结果写入文件
             new DataStorage().storeCheckInfo(correctList,wrongList);
         } catch (Exception e) {
-            System.out.println("【比对异常】请检测文件名或路径。");
+            e.printStackTrace();
         }
     }
+
     /**
-     * @function 【重载】将待校验答案文件与本地答案文件进行比对
+     * 【重载】将待校验答案文件与本地答案文件进行比对
      * @param myAnswer 待校验答案文件
      * @param ansFile  正确答案文件
+     * @author Naren
      */
     private void checkAnswer(File myAnswer, File ansFile) {
-        FileReader fr1 = null;//待检测
-        FileReader fr2 = null;//正  确
-        BufferedReader br1 = null;//待检测
-        BufferedReader br2 = null;//正  确
+
         try {
-            fr1 = new FileReader(myAnswer);
-            fr2 = new FileReader(ansFile);
-            br1 = new BufferedReader(fr1);
-            br2 = new BufferedReader(fr2);
+            FileReader fr1 = new FileReader(myAnswer);
+            FileReader fr2 = new FileReader(ansFile);
+            BufferedReader br1 = new BufferedReader(fr1);
+            BufferedReader br2 = new BufferedReader(fr2);
 
             LinkedHashMap<Integer,String> map1 = new LinkedHashMap<>();//待检测 key:序号，value:答案
             LinkedHashMap<Integer,String> map2 = new LinkedHashMap<>();//正  确 key:序号，value:答案
@@ -134,11 +133,11 @@ public class AnswerChecking {
             String content = "";
             while((content = br1.readLine()) != null){
                 content = content.replaceAll(" +", "").replaceAll("\uFEFF", "");
-                map1.put(Integer.valueOf(content.split("//.")[0]),content.split("//.")[1]);
+                map1.put(Integer.valueOf(content.split("\\.")[0]),content.split("\\.")[1]);
             }
             while((content = br2.readLine()) != null){
                 content = content.replaceAll(" +", "").replaceAll("\uFEFF", "");
-                map2.put(Integer.valueOf(content.split("//.")[0]),content.split("//.")[1]);
+                map2.put(Integer.valueOf(content.split("\\.")[0]),content.split("\\.")[1]);
             }
 
             //开始比对
@@ -155,7 +154,7 @@ public class AnswerChecking {
             //将校验结果写入文件
             new DataStorage().storeCheckInfo(correctList,wrongList);
         } catch (Exception e) {
-            System.out.println("【比对异常】请检测文件名或路径。");
+            e.printStackTrace();
         }
     }
 }

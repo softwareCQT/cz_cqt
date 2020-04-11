@@ -4,56 +4,68 @@ import com.czAcqt.checkingTools.AnswerChecking;
 import com.czAcqt.generate.Calculate;
 import com.czAcqt.generate.Expression;
 
-import javax.xml.crypto.Data;
-import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 
+
 /**
- * @class: CommandAnalyze
- * @description: TODO
- * @author: Naren
- * @date: 2020-04-11 10:00
- * @version 2.0
+ * @Class CommandAnalyze
+ * @Destination 解析用户的指令
+ * @Author Naren
+ * @Date 2020/4/11 10:00
+ * @Version 1.0
  */
 public class CommandAnalyze {
-
 
     private Scanner sc;
     private Scanner sc1;
     private Scanner sc2;
 
+    /**
+     * 空参构造方法 用于初始化
+     * @author Naren
+     */
     public CommandAnalyze(){
         sc = new Scanner(System.in);
         sc1 = new Scanner(System.in);
         sc2 = new Scanner(System.in);
 
     }
-    public void command(){
-        System.out.println("请输入待进行的操作【生成/校验】：[1/2]");
-        String choose = sc.next();
-        switch(choose) {
-            case "1":
-                int[] arrays = getRange();
 
-                Expression expression = new Expression(arrays[0], arrays[1], new Calculate());
-                expression.generateAllExpression();
-                //单线程生成，会阻塞
-                //TODO 调用你的文件写
-                DataStorage dataStorage = new DataStorage();
-                dataStorage.storeExp(expression.getExpressionList());
-                dataStorage.storeAns(expression.getAnswerList());
-                break;
-            case "2":
-                checkCommand();
-                break;
-            default:
-                //TODO 记得改
-                System.out.println("您的输入有误，请重新输入。");
-                new CommandAnalyze();
-        }
+    /**
+     * 获取用户指令并选择进行相应操作
+     * @author Naren
+     */
+    public void command(){
+        String con = "";
+        do{
+            System.out.println("请输入待进行的操作【生成/校验】：[1/2]");
+            String choose = sc.next();
+            switch(choose) {
+                case "1":
+                    //获取表达式参数
+                    int[] arrays = getRange();
+                    Expression expression = new Expression(arrays[0], arrays[1], new Calculate());
+                    //生成表达式，单线程生成，会阻塞
+                    expression.generateAllExpression();
+                    //将生成的表达式和答案写入对应文件
+                    DataStorage dataStorage = new DataStorage();
+                    dataStorage.storeExp(expression.getExpressionList());
+                    dataStorage.storeAns(expression.getAnswerList());
+                    break;
+                case "2":
+                    //进行校验命令格式判断
+                    checkCommand();
+                    break;
+            }
+            System.out.println("是否退出？【是/否】[y/else]");
+            con = sc.next();
+        }while(!con.equalsIgnoreCase("y"));
     }
 
+    /**
+     * 检查用户校验命令的格式
+     * @author Naren
+     */
     private void checkCommand() {
         System.out.println("输入校验命令【格式:Myapp.exe -e <exercisefile>.txt -a <answerfile>.txt】");
         String checkCommand = sc1.nextLine();
@@ -77,10 +89,11 @@ public class CommandAnalyze {
     }
 
     /**
-     * 获取题目数和数值范围
-     * @throws
+     * 获取用户指定的题目数和数值范围
+     * @return int[]
+     * @author Naren
      */
-    private int[] getRange() {//zai jian ,gou nanren
+    private int[] getRange(){
 
         System.out.println("请输入命令以生成对应数目题目：");
         String numCommand = sc1.nextLine();
@@ -101,7 +114,6 @@ public class CommandAnalyze {
         if(!flag){
             System.out.println("无效命令！请检查您的命令格式或数值范围。");
             return getRange();
-            //TODO 传参检验
         //格式错误，重新输入命令
         } else {
             //返回结果集
