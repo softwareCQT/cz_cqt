@@ -1,6 +1,7 @@
 package com.czAcqt.assistiveTools;
 
 import com.czAcqt.checkingTools.AnswerChecking;
+import com.czAcqt.generate.Calculate;
 import com.czAcqt.generate.Expression;
 
 import java.io.IOException;
@@ -15,14 +16,20 @@ import java.util.Scanner;
  */
 public class CommandAnalyze {
 
-    AnswerChecking ac = new AnswerChecking();
-    Scanner sc = new Scanner(System.in);
-    Scanner sc1 = new Scanner(System.in);
-    Scanner sc2 = new Scanner(System.in);
 
-    public CommandAnalyze(String choose){
+    private Scanner sc;
+    private Scanner sc1;
+    private Scanner sc2;
+
+    public CommandAnalyze(){
+        Scanner sc = new Scanner(System.in);
+        sc1 = new Scanner(System.in);
+        sc2 = new Scanner(System.in);
+
+    }
+    public void command(){
         System.out.println("请输入待进行的操作【生成/校验】：[1/2]");
-        choose = sc.next();
+        String choose = sc.next();
         switch(choose){
             case "1":
                 getRange();
@@ -30,6 +37,9 @@ public class CommandAnalyze {
             case"2":
                 checkCommand();
                 break;
+            default:
+                System.out.println("您的输入有误，请重新输入。");
+                new CommandAnalyze();
         }
     }
 
@@ -46,6 +56,7 @@ public class CommandAnalyze {
         //格式正确，将题目数和数值范围传给表达式生成类
         if(flag){
             //进行校验
+            AnswerChecking ac = new AnswerChecking();
             ac.checkFile(file[2],file[4]);
             //格式错误，重新输入命令
         }else{
@@ -77,8 +88,8 @@ public class CommandAnalyze {
 
         //格式正确，将题目数和数值范围传给表达式生成类
         if(flag){
-            //TODO 待添加calculate对象参数（在main中传参？）
-//            new Expression(Integer.parseInt(num[2]), Integer.parseInt(range[2]),);
+            //TODO 传参检验
+            new Expression(Integer.parseInt(num[2]), Integer.parseInt(range[2]),new Calculate());
         //格式错误，重新输入命令
         }else{
             System.out.println("无效命令！请检查您的命令格式或数值范围。");
