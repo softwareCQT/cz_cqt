@@ -55,7 +55,7 @@ public class AnswerChecking {
                     String content = null;
                     ArrayList<String> questionList = new ArrayList<>();
                     while((content = br.readLine()) != null){//(?m)^.*$
-                        content = content.split("//.")[1];
+                        content = content.split("\\.")[1];
                         questionList.add(content);
                     }
                     //调用起廷方法获得答案队列

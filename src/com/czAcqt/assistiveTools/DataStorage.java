@@ -21,8 +21,8 @@ public class DataStorage {
      * @throws IOException
      */
     public void setFileId(int flag) throws IOException {
-
-        if(flag == 1) {//表达式
+        //表达式
+        if(flag == 1) {
             System.out.println("请设置待生成文件的3位数字版号：");
             Scanner sc = new Scanner(System.in);
             id = sc.next();
@@ -76,13 +76,13 @@ public class DataStorage {
      * @throws IOException
      */
     public void storeAns(List<String> answerList) {
-
+        //Myapp.exe -e  -a Answers001.txt
         BufferedWriter ansWriter = null;
         try {
             setFileId(2);
             ansWriter = new BufferedWriter(new FileWriter(ansFile,true));
-            for(int i = 1;i <= answerList.size();i++){
-                ansWriter.write(i + "." + answerList.get(i) + "\n");
+            for(int i = 0, length = answerList.size();i < length;i++){
+                ansWriter.write((i + 1) + "." + answerList.get(i) + "\n");
                 ansWriter.flush();
             }
             if(ansWriter != null){

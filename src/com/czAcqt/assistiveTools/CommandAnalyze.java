@@ -4,7 +4,9 @@ import com.czAcqt.checkingTools.AnswerChecking;
 import com.czAcqt.generate.Calculate;
 import com.czAcqt.generate.Expression;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -22,7 +24,7 @@ public class CommandAnalyze {
     private Scanner sc2;
 
     public CommandAnalyze(){
-        Scanner sc = new Scanner(System.in);
+        sc = new Scanner(System.in);
         sc1 = new Scanner(System.in);
         sc2 = new Scanner(System.in);
 
@@ -30,14 +32,23 @@ public class CommandAnalyze {
     public void command(){
         System.out.println("请输入待进行的操作【生成/校验】：[1/2]");
         String choose = sc.next();
-        switch(choose){
+        switch(choose) {
             case "1":
-                getRange();
+                int[] arrays = getRange();
+
+                Expression expression = new Expression(arrays[0], arrays[1], new Calculate());
+                expression.generateAllExpression();
+                //单线程生成，会阻塞
+                //TODO 调用你的文件写
+                DataStorage dataStorage = new DataStorage();
+                dataStorage.storeExp(expression.getExpressionList());
+                dataStorage.storeAns(expression.getAnswerList());
                 break;
-            case"2":
+            case "2":
                 checkCommand();
                 break;
             default:
+                //TODO 记得改
                 System.out.println("您的输入有误，请重新输入。");
                 new CommandAnalyze();
         }
@@ -69,7 +80,7 @@ public class CommandAnalyze {
      * 获取题目数和数值范围
      * @throws
      */
-    private void getRange() {//zai jian ,gou nanren
+    private int[] getRange() {//zai jian ,gou nanren
 
         System.out.println("请输入命令以生成对应数目题目：");
         String numCommand = sc1.nextLine();
@@ -87,13 +98,14 @@ public class CommandAnalyze {
                 flag = true;
 
         //格式正确，将题目数和数值范围传给表达式生成类
-        if(flag){
-            //TODO 传参检验
-            new Expression(Integer.parseInt(num[2]), Integer.parseInt(range[2]),new Calculate());
-        //格式错误，重新输入命令
-        }else{
+        if(!flag){
             System.out.println("无效命令！请检查您的命令格式或数值范围。");
-            getRange();
+            return getRange();
+            //TODO 传参检验
+        //格式错误，重新输入命令
+        } else {
+            //返回结果集
+            return new int[]{Integer.parseInt(num[2]), Integer.parseInt(range[2])};
         }
     }
 }

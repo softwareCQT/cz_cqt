@@ -26,7 +26,8 @@ public class Main {
         }*/
 
         //获取用户指令
-        new CommandAnalyze().command();
+        CommandAnalyze commandAnalyze = new CommandAnalyze();
+        commandAnalyze.command();
 
         //Expression expression =
     }
