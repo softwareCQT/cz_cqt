@@ -1,7 +1,5 @@
 package com.czAcqt.generate;
 
-import com.sun.istack.internal.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -14,9 +12,10 @@ public class Calculate{
     /***
      * 计算表达式
      * @param expression 表达式
+     * @param permit 允许存在负数的运算过程
      * @return 结果
      */
-    public String calculate(String expression) {
+     public String calculate(String expression, boolean permit) {
         if (expression == null) {
             return null;
         }
@@ -25,17 +24,24 @@ public class Calculate{
         Stack<String> stack = new Stack<>();
         try {
             for (int index = 0; index < afterExp.length; index++) {
-                if (afterExp[index].matches("^\\d\\S*\\d$")) {
+                if (afterExp[index].matches("[0-9/']+")) {
                     stack.push(afterExp[index]);
                 } else {
                     String b = stack.pop();
                     String a = stack.pop();
 
-                    stack.push(Symbol.value(afterExp[index]).calculate(a, b));
+                    String result = Symbol.value(afterExp[index]).calculate(a, b);
+                    //计算过程中存在负数，重新生成表达式
+                    if (result.startsWith("-") && !permit){
+                        return null;
+                    }
+                    stack.push(result);
                 }
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
+        } catch (Exception e){
+            System.out.println("存在表达式不合法");
         }
         return stack.pop();
     }
@@ -75,7 +81,8 @@ public class Calculate{
                     stringList.add(stack.pop());
                 }
                 stack.push(strings[index]);
-            } else {
+            } else if (strings[index].equals(Symbol.SUB.getSymbol())
+                    || strings[index].equals(Symbol.ADD.getSymbol())){
                 //此处应该为+，-号
                 boolean flag = !stack.isEmpty() && (stack.peek().equals(Symbol.ADD.getSymbol())
                         || stack.peek().equals(Symbol.SUB.getSymbol()));
@@ -83,6 +90,9 @@ public class Calculate{
                     stringList.add(stack.pop());
                 }
                 stack.push(strings[index]);
+            } else{
+                //有其他符号，直接跳出，可能是=号
+                break;
             }
         }
         while (!stack.isEmpty()){

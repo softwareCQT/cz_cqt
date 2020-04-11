@@ -50,10 +50,16 @@ public class ResolveUtil {
             }
         }
         int beforeNum = 0;
-        //molecule取前缀真分数
-        if (molecule > denominator){
-            beforeNum = molecule / denominator;
+        //对除0异常进行处理
+        try{
+            //molecule取前缀真分数
+            if (molecule > denominator){
+                beforeNum = molecule / denominator;
+            }
+        }catch (ArithmeticException e){
+            return "0";
         }
+
         //判断公因数的结果
         if (result == 0) {
             return beforeNum != 0 ?

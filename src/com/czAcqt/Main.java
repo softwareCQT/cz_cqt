@@ -2,8 +2,10 @@ package com.czAcqt;
 
 
 import com.czAcqt.generate.Calculate;
+import com.czAcqt.generate.Expression;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /***
  * @author chenqiting
@@ -11,14 +13,14 @@ import java.util.ArrayList;
 public class Main {
 
     public static void main(String[] args) {
-        //TODO  检查参数，并检索
+        //示例
+        Expression expression = new Expression(10000, 40, new Calculate());
 
-        //TODO 根据参数开始生成表达式
-
-        //TODO 表达式生成结果返回，以Map<String, String>的question，answer形式
-
-        //TODO 写入文件
-        Calculate calculate = new Calculate();
-        System.out.println(calculate.calculate("100 - 200"));
+        expression.generateAllExpression();
+        List<String> expressionList = expression.getExpressionList();
+        List<String> answerList = expression.getAnswerList();
+        for (int i = 0, length = expressionList.size(); i < length; i++) {
+            System.out.println(expressionList.get(i) + " " + answerList.get(i));
+        }
     }
 }
