@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -12,46 +14,86 @@ import java.util.Set;
  */
 public class DataStorage {
 
+    File expFile = null;
+    File ansFile = null;
+    String id = null;
+
     /**
-     * 将表达式和答案写入本地文件
-     * @param expMap
+     * @function 设置文件版号以方便匹配题目与答案
+     * @param flag
      * @throws IOException
      */
-    public void printExp(Map<String,String> expMap) throws IOException {
+    public void setfileId(int flag) throws IOException {
 
-        //expSet存储表达式
-        Set<String> expSet = expMap.keySet();
-
-        //存储表达式的文件
-        File expFile = new File("Exercises.txt");
-        //存储答案的文件
-        File ansFile = new File("Answers.txt");
-        if(!expFile.exists())
-            expFile.createNewFile();
-        if(!ansFile.exists())
-            ansFile.createNewFile();
-
-        BufferedWriter bw1 = new BufferedWriter(new FileWriter(expFile,true));
-        BufferedWriter bw2 = new BufferedWriter(new FileWriter(ansFile,true));
-
-        //循环将表达式和答案分别写入两个文件
-        for(String key: expSet) {
-            //TODO 待添加：存储的同时表明序号
-            bw1.write(key);
-            bw1.write("\n");
-            bw2.write(expMap.get(key));
-            bw2.write("\n");
+        if(flag == 1) {//表达式
+            System.out.println("请设置待生成文件的3位数字版号：");
+            Scanner sc = new Scanner(System.in);
+            id = sc.next();
+            expFile = new File("Exercises" + id + ".txt");//存储表达式的文件
+            if(!expFile.exists()) {
+                expFile.createNewFile();
+            }else{
+                System.out.println("该文件已存在，请重新设置。");
+                setfileId(flag);
+            }
+        }
+        if(flag == 2) {//答案
+            ansFile = new File("Answers" + id + ".txt"); //存储答案的文件
+            if(!ansFile.exists()) {
+                ansFile.createNewFile();
+            }
         }
 
-        if(bw1 != null){
-            bw1.flush();
-            bw1.close();
+    }
+    /**
+     * 将表达式写入本地文件
+     * @param questionList
+     * @throws IOException
+     */
+    public void storeExp(List<String> questionList) {
+
+        try {
+            setfileId(1);
+            BufferedWriter expWriter = new BufferedWriter(new FileWriter(expFile,true));
+
+            //循环将表达式写入文件
+            int num = 1;
+            for(String exp: questionList){
+                expWriter.write(num++ + "." + exp + "\n");
+                expWriter.flush();
+            }
+            if(expWriter != null){
+                expWriter.close();
+            }
+            System.out.println("题目文件生成成功。");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        if(bw2 != null){
-            bw2.flush();
-            bw2.close();
+
+    }
+
+    /**
+     * 将答案写入本地文件
+     * @param answerList
+     * @throws IOException
+     */
+    public void storeAns(List<String> answerList) {
+
+        try {
+            setfileId(2);
+            BufferedWriter ansWriter = new BufferedWriter(new FileWriter(ansFile,true));
+            for(int i = 1;i <= answerList.size();i++){
+                ansWriter.write(i + "." + answerList.get(i) + "\n");
+                ansWriter.flush();
+            }
+            if(ansWriter != null){
+                ansWriter.close();
+            }
+            System.out.println("答案文件生成成功。");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("文件已生成，请进入对应目录进行查阅。");
+
     }
 
 }
