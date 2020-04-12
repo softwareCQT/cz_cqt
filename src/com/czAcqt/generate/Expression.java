@@ -48,13 +48,11 @@ public class Expression {
     /***
      * 操作符个数
      */
-    //TODO 修改操作符个数
     private final static int OPERATOR_SIZE = 4;
     /***
      * 最多的操作符数
      */
-    //TODO 修改最大操作符个数为3
-    private final static int MAX_OPERATOR_SIZE = 4;
+    private final static int MAX_OPERATOR_SIZE = 3;
 
     /***
      * 生成文件的构造函数
@@ -83,10 +81,10 @@ public class Expression {
      * 生成表达式成功
      * @return 是否生成过程中用户有其他操作，返回错误
      */
-    public boolean generateAllExpression(){
-        for (int i = 0; i < questionCount;){
-            if (i % 100 == 0){
-               //打印进度
+    public boolean generateAllExpression() {
+        for (int i = 0; i < questionCount; ) {
+            if (i % 100 == 0) {
+                //打印进度
             }
             //生成表达式
             String expression = generateExpression();
@@ -112,20 +110,20 @@ public class Expression {
      * @return 是否重复
      */
     private boolean checkExpressionExistAndResultIllegal(String expression, String result) {
-        if (Objects.isNull(result)){
+        if (Objects.isNull(result)) {
             return true;
         }
         //当前没有表达式
-        if (nowExpressionSize == 0){
+        if (nowExpressionSize == 0) {
             return false;
         }
         //API的一些操作也是循环，效率低下，手动循环
-        for (int i = 0, j = nowExpressionSize - 1; i <= j; i++, j--){
+        for (int i = 0, j = nowExpressionSize - 1; i <= j; i++, j--) {
             if (expressionList.get(i).equals(expression) || expressionList.get(j).equals(expression)) {
                 return true;
             }
             //查看是否答案有相同的
-            if (answerList.get(i).equals(result)){
+            if (answerList.get(i).equals(result)) {
                 return checkCharEquals(expressionList.get(i), expression);
             } else if (answerList.get(j).equals(result)) {
                 return checkCharEquals(expressionList.get(j), expression);
@@ -150,12 +148,12 @@ public class Expression {
         //开始遍历
         for (String oldString : oldExpressionArrays) {
             flag = oldExpression.matches("[0-9'/]+");
-            if (flag){
+            if (flag) {
                 oldExpressionNumber++;
             }
             //比对
             for (String newString : newExpressionArrays) {
-                if (oldString.equals(newString)){
+                if (oldString.equals(newString)) {
                     equalsNumber++;
                 }
             }
@@ -169,38 +167,38 @@ public class Expression {
      * 生成表达式
      * @return 生成表达式
      */
-    private String generateExpression(){
+    private String generateExpression() {
         //随机运算符大小
-        int operatorSize = (int)(Math.random() * MAX_OPERATOR_SIZE) + 1;
+        int operatorSize = (int) (Math.random() * MAX_OPERATOR_SIZE) + 1;
         int numberSize = operatorSize + 1;
         //判断是否需要生成括号,1/4的概率
-        boolean flag = (int)(Math.random() * MAX_OPERATOR_SIZE) == 0;
+        boolean flag = (int) (Math.random() * MAX_OPERATOR_SIZE) == 0;
         //标记（产生的位置）
         int mark = -1;
-        if (flag){
+        if (flag) {
             //随机插入括号的位置
-            mark = (int)(Math.random() * operatorSize);
+            mark = (int) (Math.random() * operatorSize);
         }
 
         StringBuilder expression = new StringBuilder();
         //遍历产生数字和符号，你一下我一下
-        for (int i = 0; i < numberSize; i++){
-            if (mark == i){
+        for (int i = 0; i < numberSize; i++) {
+            if (mark == i) {
                 myAppend(expression, "(");
             }
             //生成数字
-            myAppend(expression, (int)(Math.random() * 2) == 0 ? generateFraction() : generateInt());
+            myAppend(expression, (int) (Math.random() * 2) == 0 ? generateFraction() : generateInt());
 
             //判断是否加入结束符号，判断是否结尾
-            if (mark >= 0 && mark < i){
+            if (mark >= 0 && mark < i) {
                 //已经到了表达式结尾, 此时必须结束
-                if (i == operatorSize){
+                if (i == operatorSize) {
                     myAppend(expression, ")");
                     break;
                 }
                 //判断是否需要结束
-                flag = (int)(Math.random() * 2) == 0;
-                if (flag){
+                flag = (int) (Math.random() * 2) == 0;
+                if (flag) {
                     myAppend(expression, ")");
                     mark = -1;
                 }
@@ -217,10 +215,10 @@ public class Expression {
 
     /***
      * 生成整数值
-     * @return  返回整数值的字符串
+     * @return 返回整数值的字符串
      */
-    private String generateInt(){
-            //生成整数值
+    private String generateInt() {
+        //生成整数值
         return String.valueOf((int) (Math.random() * numberRange));
     }
 
@@ -228,7 +226,7 @@ public class Expression {
      * 生成分数
      * @return 分数的字符串
      */
-    private String generateFraction(){
+    private String generateFraction() {
         //需要定义好分子和分母
         int denominator = (int) (Math.random() * numberRange);
         if (denominator == 0) {
@@ -242,17 +240,17 @@ public class Expression {
      * 生成操作符，不包括括号
      * @return 操作符
      */
-    private String generateOperator(){
+    private String generateOperator() {
         int random = (int) (Math.random() * OPERATOR_SIZE);
 
-        if (random == Symbol.ADD.ordinal()){
+        if (random == Symbol.ADD.ordinal()) {
             return Symbol.ADD.getSymbol();
-        }else if (random == Symbol.DIVIDE.ordinal()){
+        } else if (random == Symbol.DIVIDE.ordinal()) {
             return Symbol.DIVIDE.getSymbol();
-        }else if (random == Symbol.SUB.ordinal()){
+        } else if (random == Symbol.SUB.ordinal()) {
             return Symbol.SUB.getSymbol();
-        }else {
-            return  Symbol.MULTIPLY.getSymbol();
+        } else {
+            return Symbol.MULTIPLY.getSymbol();
         }
     }
 
