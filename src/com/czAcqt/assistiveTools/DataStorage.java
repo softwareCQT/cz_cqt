@@ -55,7 +55,8 @@ public class DataStorage {
 
         try {
             setFileId(1);
-            BufferedWriter expWriter = new BufferedWriter(new FileWriter(expFile,true));
+//            BufferedWriter expWriter = new BufferedWriter(new FileWriter(expFile,true));
+            BufferedWriter expWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(expFile),"UTF-8"));
 
             //循环将表达式写入文件
             int num = 1;
@@ -68,6 +69,7 @@ public class DataStorage {
             }
             System.out.println("题目文件生成成功。");
         } catch (IOException e) {
+            System.out.println("Class:DataStorage, Method:storeExp(List) is wrong!");
             e.printStackTrace();
         }
     }
@@ -81,7 +83,8 @@ public class DataStorage {
 
         try {
             setFileId(2);
-            BufferedWriter ansWriter = new BufferedWriter(new FileWriter(ansFile,true));
+//            BufferedWriter ansWriter = new BufferedWriter(new FileWriter(ansFile));
+            BufferedWriter ansWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ansFile),"UTF-8"));
             for(int i = 0, length = answerList.size();i < length;i++){
                 ansWriter.write((i + 1) + "." + answerList.get(i) + "\n");
                 ansWriter.flush();
@@ -91,6 +94,7 @@ public class DataStorage {
             }
             System.out.println("答案文件生成成功。");
         } catch (IOException e) {
+            System.out.println("Class:DataStorage, Method:storeAns(List) is wrong!");
             e.printStackTrace();
         }
 
@@ -105,7 +109,8 @@ public class DataStorage {
 
         try{
             //Correct信息
-            BufferedWriter  checkWriter = new BufferedWriter( new FileWriter(new File("Grade.txt")));
+//            BufferedWriter  checkWriter = new BufferedWriter( new FileWriter(new File("Grade.txt")));
+            BufferedWriter  checkWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(new File("Grade.txt")),"UTF-8"));
             checkWriter.write("Correct:" + correctList.size());
             if(checkWriter != null) checkWriter.flush();
             String content = "";
@@ -147,6 +152,7 @@ public class DataStorage {
             if(checkWriter != null) checkWriter.flush();
             if(checkWriter != null) checkWriter.close();
         }catch(Exception e){
+            System.out.println("Class:DataStorage, Method:storeCheckInfo(List,List) is wrong!");
             e.printStackTrace();
         }
     }

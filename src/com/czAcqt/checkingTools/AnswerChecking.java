@@ -25,16 +25,16 @@ public class AnswerChecking {
     /**
      * 校验待检测文件状态
      * @param exersicesFile
-     * @param answerFile
+     * @param myAnswer
      * @author Naren
      */
-    public void checkFile(String exersicesFile,String answerFile) {
+    public void checkFile(String exersicesFile,String myAnswer) {
             //存储表达式的文件
-            File expFile = new File(exersicesFile);
-            //存储答案的文件
-            File ansFile = new File(answerFile);
+            File expFile = new File(exersicesFile);//Exercise002.txt
+            //待校验答案的文件
+            File myAnsFile = new File(myAnswer);//myAnswers001.txt
             //待校验答案文件不存在
-            if(!ansFile.exists()){
+            if(!myAnsFile.exists()){
                 System.out.println("未找到待检验答案文件。");
                 return;
             }
@@ -45,10 +45,10 @@ public class AnswerChecking {
             }
             //如果全部文件名都正确，检测待校对题目文件是否存在于系统生成历史中
             String id = exersicesFile.substring(9,12);
-            String myAnswerFile = "Answers" + id + ".txt"; //Myapp.exe -e Exercises002.txt -a Answers002.txt
-            File myAnswer = new File(myAnswerFile);
+            String sysAnsFile = "Answers" + id + ".txt"; //Myapp.exe -e Exercises001.txt -a myAnswers001.txt
+            File ansFile = new File(sysAnsFile);//Answers002.txt(不存在)
             //若系统中不存在与题目文件相符合的答案文件
-            if(!myAnswer.exists()){
+            if(!ansFile.exists()){
                 try {
                     FileReader fr = new FileReader(expFile);
                     BufferedReader br = new BufferedReader(fr);
@@ -60,16 +60,15 @@ public class AnswerChecking {
                     }
                     //调用起廷方法获得答案队列
                     Expression ex = new Expression(new Calculate());
-                    //TODO 传参检验
                     List<String> answerList = ex.getCorrectAnswerList(questionList);
                     //比对
-                    checkAnswer(myAnswer,answerList);
+                    checkAnswer(myAnsFile,answerList);
                 } catch (Exception e) {
-                    System.out.println("【答案队列比对异常】文件状态异常");
+                    System.out.println("Class:AnswerChecking,Method:checkFile(String,String) is wrong!");
                 }
             }else{
                 //调用本类检验方法比对答案文件
-                checkAnswer(myAnswer,ansFile);
+                checkAnswer(myAnsFile,ansFile);
             }
     }
 
@@ -91,24 +90,28 @@ public class AnswerChecking {
             while((content = br1.readLine()) != null){
                 content = content.replaceAll(" +", "").replaceAll("\uFEFF", "");
                 //map1待校验答案：key:序号，value:答案
-                map1.put(Integer.valueOf(content.split("//.")[0]),content.split("\\.")[1]);
+                map1.put(Integer.valueOf(content.split("\\.")[0]),content.split("\\.")[1]);
             }
 
             //开始比对
-            for (int i = 1; i <= map1.size(); i++) {
-                if(map1.containsKey(i) && answerList.get(i) != null){
-                    if(map1.get(i).equals(answerList.get(i))) {
-                        correctList.add(i);//正确题号添加进队列
+            for (int i = 0; i < answerList.size(); i++) {
+                if(map1.containsKey(i + 1)){
+                    if(map1.get(i + 1).equals(answerList.get(i))) {
+                        correctList.add(i + 1);//正确题号添加进队列
                     }
                     else{
-                        wrongList.add(i);//错误题号添加进队列
+                        wrongList.add(i + 1);//错误题号添加进队列
                     }
+                }else{
+                    //漏写
+                    wrongList.add(i + 1);
                 }
             }
             //将校验结果写入文件
+            System.out.println("检验信息已写入Grade.txt文件。");
             new DataStorage().storeCheckInfo(correctList,wrongList);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Class:AnswerChecking,Method:checkAnswer(File,List) is wrong!");
         }
     }
 
@@ -140,21 +143,26 @@ public class AnswerChecking {
                 map2.put(Integer.valueOf(content.split("\\.")[0]),content.split("\\.")[1]);
             }
 
+            System.out.println(map2.size()+","+map1.size());
             //开始比对
-            for (int i = 1; i <= map1.size(); i++) {
-                if(map1.containsKey(i) && map2.containsKey(i)){
-                    if(map1.get(i).equals(map2.get(i))) {
-                        correctList.add(i);//正确题号添加进队列
+            for (int i = 0; i < map2.size(); i++) {
+                if(map1.containsKey(i + 1)){
+                    if(map1.get(i + 1).equals(map2.get(i + 1))) {
+                        correctList.add(i + 1);//正确题号添加进队列
                     }
                     else{
-                        wrongList.add(i);//错误题号添加进队列
+                        wrongList.add(i + 1);//错误题号添加进队列
                     }
+                }else{
+                    //漏写
+                    wrongList.add(i + 1);
                 }
             }
             //将校验结果写入文件
+            System.out.println("检验信息已写入Grade.txt文件。");
             new DataStorage().storeCheckInfo(correctList,wrongList);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Class:AnswerChecking,Method:checkAnswer(File,File) is wrong!");
         }
     }
 }
