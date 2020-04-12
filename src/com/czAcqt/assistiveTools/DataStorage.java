@@ -61,7 +61,8 @@ public class DataStorage {
             //循环将表达式写入文件
             int num = 1;
             for(String exp: questionList){
-                expWriter.write(num++ + "." + exp + "\n");
+//                expWriter.write(num++ + "." + exp + "\n");
+                expWriter.write(num++ + "." + exp + "\r\n");
                 expWriter.flush();
             }
             if(expWriter != null){
@@ -86,7 +87,8 @@ public class DataStorage {
 //            BufferedWriter ansWriter = new BufferedWriter(new FileWriter(ansFile));
             BufferedWriter ansWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(ansFile),"UTF-8"));
             for(int i = 0, length = answerList.size();i < length;i++){
-                ansWriter.write((i + 1) + "." + answerList.get(i) + "\n");
+//                ansWriter.write((i + 1) + "." + answerList.get(i) + "\n");
+                ansWriter.write((i + 1) + "." + answerList.get(i) + "\r\n");
                 ansWriter.flush();
             }
             if(ansWriter != null){
@@ -123,7 +125,8 @@ public class DataStorage {
                     content += questionId+")";
                 }
             }
-            checkWriter.write(content + "\n");
+//            checkWriter.write(content + "\n");
+            checkWriter.write(content + "\r\n");
             if(checkWriter != null) checkWriter.flush();
 
             //Wrong信息
@@ -148,7 +151,8 @@ public class DataStorage {
                 }
             }
 
-            checkWriter.write(content + "\n");
+//            checkWriter.write(content + "\n");
+            checkWriter.write(content + "\r\n");
             if(checkWriter != null) checkWriter.flush();
             if(checkWriter != null) checkWriter.close();
         }catch(Exception e){

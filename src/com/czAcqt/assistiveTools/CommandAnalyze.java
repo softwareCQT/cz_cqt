@@ -99,9 +99,9 @@ public class CommandAnalyze {
      */
     private int[] getRange() {
 
-        System.out.println("请输入命令以生成对应数目题目：");
+        System.out.println("请输入命令以生成对应数目题目【格式：Myapp.exe -n 题目数】：");
         String numCommand = sc1.nextLine();
-        System.out.println("请输入命令以限制题目数值范围[2位数]：");
+        System.out.println("请输入命令以限制题目数值范围【格式：Myapp.exe -r 数值范围[2~10]】：");
         String rangeCommand = sc2.nextLine();
 
         String[] num = numCommand.split(" ");
@@ -111,7 +111,7 @@ public class CommandAnalyze {
         boolean flag = false;
         if (num[0].equals("Myapp.exe") && num[1].equals("-n") && range[0].equals("Myapp.exe") && range[1].equals("-r"))
             //如果题目数是>0的数字且数值范围是合理的
-            if (num[2].matches("[^0][0-9]+") && range[2].matches("[^0][0-9]"))
+            if (num[2].matches("[^0][0-9]+") && (range[2].matches("[2-9]") || range[2].matches("[1][0]")))
                 flag = true;
 
         //格式正确，将题目数和数值范围传给表达式生成类
