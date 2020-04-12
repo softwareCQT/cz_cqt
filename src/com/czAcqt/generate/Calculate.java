@@ -8,14 +8,14 @@ import java.util.Stack;
  * @author chenqiting
  * 计算的类，主要通过后缀表达式来计算结果
  */
-public class Calculate{
+public class Calculate {
     /***
      * 计算表达式
      * @param expression 表达式
      * @param permit 允许存在负数的运算过程
      * @return 结果
      */
-     public String calculate(String expression, boolean permit) {
+    public String calculate(String expression, boolean permit) {
         if (expression == null) {
             return null;
         }
@@ -32,7 +32,7 @@ public class Calculate{
 
                     String result = Symbol.value(afterExp[index]).calculate(a, b);
                     //计算过程中存在负数，重新生成表达式
-                    if (result.startsWith("-") && !permit){
+                    if (result.startsWith("-") && !permit) {
                         return null;
                     }
                     stack.push(result);
@@ -40,7 +40,7 @@ public class Calculate{
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println("存在表达式不合法");
         }
         return stack.pop();
@@ -59,30 +59,30 @@ public class Calculate{
         //返回的list
         List<String> stringList = new ArrayList<>(strings.length);
         for (int index = 0; index < strings.length; index++) {
-            if ('0'<= strings[index].charAt(0) && strings[index].charAt(0) <= '9'){
+            if ('0' <= strings[index].charAt(0) && strings[index].charAt(0) <= '9') {
                 //数字直接输出
                 stringList.add(strings[index]);
             } else if (strings[index].equals(Symbol.BEGIN.getSymbol())) {
                 //开始括号压进栈
                 stack.push(strings[index]);
-            }else if (strings[index].equals(Symbol.END.getSymbol())){
+            } else if (strings[index].equals(Symbol.END.getSymbol())) {
                 //把所有运算符都出栈
-                while (!stack.peek().equals(Symbol.BEGIN.getSymbol())){
+                while (!stack.peek().equals(Symbol.BEGIN.getSymbol())) {
                     stringList.add(stack.pop());
                 }
                 //出栈开始括号
                 stack.pop();
-            }else if (strings[index].equals(Symbol.MULTIPLY.getSymbol())
-                    || strings[index].equals(Symbol.DIVIDE.getSymbol())){
+            } else if (strings[index].equals(Symbol.MULTIPLY.getSymbol())
+                    || strings[index].equals(Symbol.DIVIDE.getSymbol())) {
                 //判断上一级符号是什么
                 boolean flag = !stack.isEmpty() && (stack.peek().equals(Symbol.MULTIPLY.getSymbol())
                         || stack.peek().equals(Symbol.DIVIDE.getSymbol()));
-                if (flag){
+                if (flag) {
                     stringList.add(stack.pop());
                 }
                 stack.push(strings[index]);
             } else if (strings[index].equals(Symbol.SUB.getSymbol())
-                    || strings[index].equals(Symbol.ADD.getSymbol())){
+                    || strings[index].equals(Symbol.ADD.getSymbol())) {
                 //此处应该为+，-号
                 boolean flag = !stack.isEmpty() && (stack.peek().equals(Symbol.ADD.getSymbol())
                         || stack.peek().equals(Symbol.SUB.getSymbol()));
@@ -90,12 +90,12 @@ public class Calculate{
                     stringList.add(stack.pop());
                 }
                 stack.push(strings[index]);
-            } else{
+            } else {
                 //有其他符号，直接跳出，可能是=号
                 break;
             }
         }
-        while (!stack.isEmpty()){
+        while (!stack.isEmpty()) {
             stringList.add(stack.pop());
         }
         //返回数组
