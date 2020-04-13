@@ -218,11 +218,11 @@ public class Expression {
             }
             if (i < operatorSize) {
                 //然后生成一个操作符
-                String oprator = generateOperator();
-                if (oprator.equals(Symbol.DIVIDE.getSymbol())){
+                String operator = generateOperator();
+                if (operator.equals(Symbol.DIVIDE.getSymbol())){
                     divideBoolean = true;
                 }
-                myAppend(expression, oprator);
+                myAppend(expression, operator);
             }
         }
         //最后补充等号
