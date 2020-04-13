@@ -9,11 +9,12 @@ import java.util.Scanner;
 
 /**
  * @Class CommandAnalyze
- * @Destination 解析用户的指令
+ * @Destination 命令行状态下解析用户的指令
  * @Author Naren
  * @Date 2020/4/11 10:00
  * @Version 1.0
  */
+
 public class CommandAnalyze {
 
     private Scanner sc;
@@ -37,6 +38,7 @@ public class CommandAnalyze {
      *
      * @author Naren
      */
+
     public void command() {
         String con = "";
         do {

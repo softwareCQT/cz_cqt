@@ -1,7 +1,17 @@
 package com.czAcqt;
 
 
+import com.czAcqt.assistiveTools.CheckThread;
 import com.czAcqt.assistiveTools.CommandAnalyze;
+import com.czAcqt.assistiveTools.DataStorage;
+import com.czAcqt.assistiveTools.GenerateThread;
+import com.czAcqt.checkingTools.AnswerChecking;
+import com.czAcqt.generate.Calculate;
+import com.czAcqt.generate.Expression;
+import com.czAcqt.graphicMenu.Graph1;
+import com.czAcqt.graphicMenu.Graph2;
+import com.czAcqt.graphicMenu.Graph3;
+import com.czAcqt.graphicMenu.Tips;
 
 /***
  * @author chenqiting
@@ -15,18 +25,19 @@ public class Main {
      * @Param String[]
      */
     public static void main(String[] args) {
-        /*//起廷的示例
-        Expression expression = new Expression(10000, 40, new Calculate());
 
-        expression.generateAllExpression();
-        List<String> expressionList = expression.getExpressionList();
-        List<String> answerList = expression.getAnswerList();
-        for (int i = 0, length = expressionList.size(); i < length; i++) {
-            System.out.println(expressionList.get(i) + " " + answerList.get(i));
-        }*/
-        //TODO 无法校验错误的数据
         //获取用户指令
-        CommandAnalyze commandAnalyze = new CommandAnalyze();
-        commandAnalyze.command();
+//        CommandAnalyze commandAnalyze = new CommandAnalyze();
+//        commandAnalyze.command();
+        //用户图型界面获取指令
+        Graph1 graph = new Graph1();
+        graph.displayGraph1();
+        Runnable runnableGenerImp = new GenerateThread();
+        Runnable runnableCheckImp = new CheckThread();
+        Thread generThread = new Thread(runnableGenerImp);
+        Thread checkThread = new Thread(runnableCheckImp);
+        generThread.start();
+        checkThread.start();
+
     }
 }
