@@ -2,16 +2,10 @@ package com.czAcqt;
 
 
 import com.czAcqt.assistiveTools.CheckThread;
-import com.czAcqt.assistiveTools.CommandAnalyze;
-import com.czAcqt.assistiveTools.DataStorage;
 import com.czAcqt.assistiveTools.GenerateThread;
-import com.czAcqt.checkingTools.AnswerChecking;
-import com.czAcqt.generate.Calculate;
-import com.czAcqt.generate.Expression;
+
 import com.czAcqt.graphicMenu.Graph1;
-import com.czAcqt.graphicMenu.Graph2;
-import com.czAcqt.graphicMenu.Graph3;
-import com.czAcqt.graphicMenu.Tips;
+
 
 /***
  * @author chenqiting
@@ -26,10 +20,12 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        //获取用户指令
-//        CommandAnalyze commandAnalyze = new CommandAnalyze();
-//        commandAnalyze.command();
-        //用户图型界面获取指令
+        //获取用户指令 控制台程序版本
+        /*CommandAnalyze commandAnalyze = new CommandAnalyze();
+        commandAnalyze.command();*/
+
+
+        //用户图型界面获取指令 图形界面版本
         Graph1 graph = new Graph1();
         graph.displayGraph1();
         Runnable runnableGenerImp = new GenerateThread();

@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+
 
 /**
  * @Class Graph
@@ -26,7 +25,6 @@ public class Graph1 extends JFrame{
 
 
         JLabel jll = new JLabel(img);
-//        jll.setLayout(null);
         frm1.setBounds(400,300,img.getIconWidth(), img.getIconHeight());
         jll.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
         this.getLayeredPane().add(jll,new Integer(Integer.MIN_VALUE));
