@@ -43,6 +43,10 @@ public class Graph2 extends JFrame{
         frm2.setLayout(null);
     }
 
+    /**
+     * 展示界面
+     * @author Naren
+     */
     public void displayGraph2(){
 
         jtfNum.setBounds(50,50,80,30);

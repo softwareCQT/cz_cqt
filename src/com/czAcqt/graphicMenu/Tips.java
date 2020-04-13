@@ -11,6 +11,10 @@ import javax.swing.*;
  */
 public class Tips extends JFrame {
 
+    /**
+     * 提示用户
+     * @author Naren
+     */
     public void displayTips(String imgName){
         JFrame frm = new JFrame();
         ImageIcon img = new ImageIcon("img/"+ imgName);
