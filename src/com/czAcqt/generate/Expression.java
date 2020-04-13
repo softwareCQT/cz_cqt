@@ -179,15 +179,28 @@ public class Expression {
             //随机插入括号的位置
             mark = (int) (Math.random() * operatorSize);
         }
-
+        //判断是否有除号,
+        boolean divideBoolean = false;
         StringBuilder expression = new StringBuilder();
         //遍历产生数字和符号，你一下我一下
         for (int i = 0; i < numberSize; i++) {
             if (mark == i) {
                 myAppend(expression, "(");
             }
+            String number = null;
+            //有除号，就不允许后面产生为0的数字
+            if (divideBoolean){
+                while (true){
+                    number = (int) (Math.random() * 2) == 0 ? generateFraction() : generateInt();
+                    if (!number.equals("0")){
+                        break;
+                    }
+                }
+            }else {
+                number = (int) (Math.random() * 2) == 0 ? generateFraction() : generateInt();
+            }
             //生成数字
-            myAppend(expression, (int) (Math.random() * 2) == 0 ? generateFraction() : generateInt());
+            myAppend(expression, number);
 
             //判断是否加入结束符号，判断是否结尾
             if (mark >= 0 && mark < i) {
@@ -205,7 +218,11 @@ public class Expression {
             }
             if (i < operatorSize) {
                 //然后生成一个操作符
-                myAppend(expression, generateOperator());
+                String oprator = generateOperator();
+                if (oprator.equals(Symbol.DIVIDE.getSymbol())){
+                    divideBoolean = true;
+                }
+                myAppend(expression, oprator);
             }
         }
         //最后补充等号
