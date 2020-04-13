@@ -143,7 +143,6 @@ public class AnswerChecking {
                 map2.put(Integer.valueOf(content.split("\\.")[0]),content.split("\\.")[1]);
             }
 
-            System.out.println(map2.size()+","+map1.size());
             //开始比对
             for (int i = 0; i < map2.size(); i++) {
                 if(map1.containsKey(i + 1)){
