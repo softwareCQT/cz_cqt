@@ -75,8 +75,8 @@ public class Calculate {
             } else if (strings[index].equals(Symbol.MULTIPLY.getSymbol())
                     || strings[index].equals(Symbol.DIVIDE.getSymbol())) {
                 //判断上一级符号是什么
-                boolean flag = !stack.isEmpty() && (stack.peek().equals(Symbol.MULTIPLY.getSymbol())
-                        || stack.peek().equals(Symbol.DIVIDE.getSymbol()));
+                boolean flag = !stack.isEmpty() && (stack.peek().equals(Symbol.ADD.getSymbol())
+                        || stack.peek().equals(Symbol.SUB.getSymbol()));
                 if (flag) {
                     stringList.add(stack.pop());
                 }
@@ -84,8 +84,7 @@ public class Calculate {
             } else if (strings[index].equals(Symbol.SUB.getSymbol())
                     || strings[index].equals(Symbol.ADD.getSymbol())) {
                 //此处应该为+，-号
-                boolean flag = !stack.isEmpty() && (stack.peek().equals(Symbol.ADD.getSymbol())
-                        || stack.peek().equals(Symbol.SUB.getSymbol()));
+                boolean flag = !stack.isEmpty() && !stack.peek().equals(Symbol.BEGIN.getSymbol());
                 if (flag) {
                     stringList.add(stack.pop());
                 }

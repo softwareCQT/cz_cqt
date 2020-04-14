@@ -2,6 +2,8 @@ package com.czAcqt;
 
 
 import com.czAcqt.assistiveTools.CommandAnalyze;
+import com.czAcqt.generate.Calculate;
+import com.czAcqt.generate.Symbol;
 
 /***
  * @author chenqiting
@@ -18,6 +20,9 @@ public class Main {
         /*//起廷的示例
         Expression expression = new Expression(10000, 40, new Calculate());
 
+        Myapp.exe -n 50000
+        Myapp.exe -r 50
+
         expression.generateAllExpression();
         List<String> expressionList = expression.getExpressionList();
         List<String> answerList = expression.getAnswerList();
@@ -26,7 +31,13 @@ public class Main {
         }*/
         //TODO 无法校验错误的数据
         //获取用户指令
-        CommandAnalyze commandAnalyze = new CommandAnalyze();
-        commandAnalyze.command();
+//        CommandAnalyze commandAnalyze = new CommandAnalyze();
+//        long start = System.currentTimeMillis();
+//        commandAnalyze.command();
+//        long end = System.currentTimeMillis();
+//        System.out.println(end - start);
+
+
+
     }
 }
