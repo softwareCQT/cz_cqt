@@ -1,5 +1,7 @@
 package com.czAcqt.assistiveTools;
 
+import com.czAcqt.graphicMenu.Graph2;
+
 import java.io.*;
 import java.util.List;
 import java.util.Scanner;
@@ -25,11 +27,12 @@ public class DataStorage {
     private void setFileId(int flag) throws IOException {
         //表达式
         if(flag == 1) {
-            System.out.println("请设置待生成文件的3位数字版号：");
-            Scanner sc = new Scanner(System.in);
-            id = sc.next();
+//            System.out.println("请设置待生成文件的3位数字版号：");
+//            Scanner sc = new Scanner(System.in);
+//            id = sc.next();
             //存储表达式的文件
-            expFile = new File("Exercises" + id + ".txt");
+//            expFile = new File("Exercises" + id + ".txt");
+            expFile = new File("Exercises" + new Graph2().fileId + ".txt");
             if(!expFile.exists()) {
                 expFile.createNewFile();
             }else{
@@ -39,7 +42,7 @@ public class DataStorage {
         }
         if(flag == 2) {
             //存储答案的文件
-            ansFile = new File("Answers" + id + ".txt");
+            ansFile = new File("Answers" + new Graph2().fileId + ".txt");
             if(!ansFile.exists()) {
                 ansFile.createNewFile();
             }
@@ -51,7 +54,7 @@ public class DataStorage {
      * 将表达式写入本地文件
      * @param questionList
      */
-    void storeExp(List<String> questionList) {
+    public void storeExp(List<String> questionList) {
 
         try {
             setFileId(1);
@@ -79,7 +82,7 @@ public class DataStorage {
      * 将答案写入本地文件
      * @param answerList
      */
-    void storeAns(List<String> answerList) {
+    public void storeAns(List<String> answerList) {
         //Myapp.exe -e  -a Answers001.txt
 
         try {
