@@ -14,18 +14,25 @@ import com.czAcqt.graphicMenu.Graph3;
 public class CheckThread implements Runnable {
     @Override
     public void run() {
-//        while(true){
-            String expFileName = null;
-            String ansFileName = null;
 
+        String expFileName = null;
+        String ansFileName = null;
+        while(true){
             //阻塞循环获取参数
             while(expFileName == null || ansFileName == null){
+                try {
+                    Thread.sleep(20000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 expFileName = new Graph3().expFileName;
                 ansFileName = new Graph3().ansFileName;
             }
             AnswerChecking ac = new AnswerChecking();
             ac.checkFile(expFileName, ansFileName);
-//        }
+            expFileName = null;
+            ansFileName = null;
+        }
 
     }
 }

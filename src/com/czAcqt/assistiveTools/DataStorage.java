@@ -27,12 +27,12 @@ public class DataStorage {
     private void setFileId(int flag) throws IOException {
         //表达式
         if(flag == 1) {
-//            System.out.println("请设置待生成文件的3位数字版号：");
-//            Scanner sc = new Scanner(System.in);
-//            id = sc.next();
+            System.out.println("请设置待生成文件的3位数字版号：");
+            Scanner sc = new Scanner(System.in);
+            id = sc.next();
             //存储表达式的文件
-//            expFile = new File("Exercises" + id + ".txt");
-            expFile = new File("Exercises" + new Graph2().fileId + ".txt");
+            expFile = new File("Exercises" + id + ".txt");
+//            expFile = new File("Exercises" + new Graph2().fileId + ".txt");
             if(!expFile.exists()) {
                 expFile.createNewFile();
             }else{
@@ -42,7 +42,8 @@ public class DataStorage {
         }
         if(flag == 2) {
             //存储答案的文件
-            ansFile = new File("Answers" + new Graph2().fileId + ".txt");
+            ansFile = new File("Answers" + id + ".txt");
+//            ansFile = new File("Answers" + new Graph2().fileId + ".txt");
             if(!ansFile.exists()) {
                 ansFile.createNewFile();
             }

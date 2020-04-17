@@ -36,14 +36,14 @@ public class AnswerChecking {
             File myAnsFile = new File(myAnswer);//myAnswers001.txt
             //待校验答案文件不存在
             if(!myAnsFile.exists()){
-//                System.out.println("未找到待检验答案文件。");
-                new Tips().displayTips("noExpTip.png");
+                System.out.println("未找到待检验答案文件。");
+//                new Tips().displayTips("noExpTip.png");
                 return;
             }
         //如果表达式文件不存在
         if(!expFile.exists()) {
-//                System.out.println("未找到指定题目文件。");
-            new Tips().displayTips("noAnsTip.png");
+                System.out.println("未找到指定题目文件。");
+//            new Tips().displayTips("noAnsTip.png");
             return;
         }
             //如果全部文件名都正确，检测待校对题目文件是否存在于系统生成历史中
@@ -111,8 +111,8 @@ public class AnswerChecking {
                 }
             }
             //将校验结果写入文件
-//            System.out.println("检验信息已写入Grade.txt文件。");
-            new Tips().displayTips("checkSuccess.png");
+            System.out.println("检验信息已写入Grade.txt文件。");
+//            new Tips().displayTips("checkSuccess.png");
             new DataStorage().storeCheckInfo(correctList,wrongList);
         } catch (Exception e) {
             System.out.println("Class:AnswerChecking,Method:checkAnswer(File,List) is wrong!");
@@ -162,8 +162,8 @@ public class AnswerChecking {
                 }
             }
             //将校验结果写入文件
-//            System.out.println("检验信息已写入Grade.txt文件。");
-            new Tips().displayTips("checkSuccess.png");
+            System.out.println("检验信息已写入Grade.txt文件。");
+//            new Tips().displayTips("checkSuccess.png");
             new DataStorage().storeCheckInfo(correctList,wrongList);
         } catch (Exception e) {
             System.out.println("Class:AnswerChecking,Method:checkAnswer(File,File) is wrong!");
